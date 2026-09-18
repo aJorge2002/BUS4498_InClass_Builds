@@ -8,26 +8,51 @@ This workflow supports the system goal defined in `my_first_agent/README.md`.
 
 ### 1.2 Workflow Trigger
 
-[Describe the event, request, schedule, or condition that starts the workflow.]
+Workflow begins when all data is registered and attendance is requested.
 
 ### 1.3 Completion Condition at Runtime
 
-[Describe how the system knows, on any given run, that this workflow is completed.]
+The system knows condition is completed when predictions are presented. This includes attendance and any additional resources in which may be required. 
 
 ### 1.4 General Workflow
 
-[Describe the overall sequence of tasks in one or two paragraphs. Explain the normal path first, followed by the most important exception paths and human-review points.]
+HackTrack gathers the necessary information when registration is updated. This consists of current registrations,  days remaining until the event, past attendance records, and any RSVPs received. After reviewing, there is a forecast on how many participants are predicted to attend.
+
+HackTrack also considers limits set by the organizer. HackTrack checks and notifies the organizer. In cases where there isn’t enough historical data or the forecast is uncertain, it advises the organizer to review data. If supplies exceed the budget or capacity, the organizer is also notified. Once everything is confirmed, the report is saved.
 
 ### 1.5 Workflow Diagram
 
-[Insert a flowchart showing the tasks in sequence. Label each task with a task number and short name. Show decision branches, loops, review points, and possible stopping conditions. Below is an example of a Mermaid. You can either edit the mermaid below yourself or ask ChatGPT to generate a Mermaid script based on your workflow description above. Give every task a unique ID, such as T1, T2, and T3, and name tasks using a verb and an object in the mermaid.]
+<img width="500" height="952" alt="image" src="https://github.com/user-attachments/assets/20f58adf-b098-4160-8f3f-57c14e7e99a4" />
 
 ```mermaid
 flowchart TD
-    T1["T1: First task"] --> T2["T2: Second task"]
-    T2 --> D1{"Decision condition?"}
-    D1 -->|Yes| T3["T3: Next task"]
-    D1 -->|No| H1["Human review"]
-    H1 --> T3
-    T3 --> C1([C1: Completion state])
-```
+    S([Organizer requests forecast])
+    T1["T1: Retrieve approved inputs"]
+    T2["T2: Validate input data"]
+    D1{"D1: Are inputs valid?"}
+    T3["T3: Report data problems"]
+    E1([Run blocked])
+    T4["T4: Calculate attendance forecast"]
+    D2{"D2: Is confidence acceptable?"}
+    T5["T5: Review forecast assumptions"]
+    T6["T6: Generate supply recommendations"]
+    D3{"D3: Within budget and capacity?"}
+    T7["T7: Adjust recommended quantities"]
+    T8["T8: Save and present report"]
+    E2([Run complete])
+
+    S --> T1
+    T1 --> T2
+    T2 --> D1
+    D1 -- No --> T3
+    T3 --> E1
+    D1 -- Yes --> T4
+    T4 --> D2
+    D2 -- No --> T5
+    T5 --> T6
+    D2 -- Yes --> T6
+    T6 --> D3
+    D3 -- No --> T7
+    T7 --> T8
+    D3 -- Yes --> T8
+    T8 --> E2
