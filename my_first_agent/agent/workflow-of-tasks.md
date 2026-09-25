@@ -22,6 +22,7 @@ HackTrack checks the recommended supply quantities against the available budget 
 
 ### 1.5 Workflow Diagram
 
+```mermaid
 flowchart TD
     S["Trigger: Organizer uploads approved inputs and requests forecast"] --> T1["Retrieve approved inputs"]
     T1 --> T2["Validate registration and event data"]
@@ -45,3 +46,4 @@ flowchart TD
     D5 -- "Yes" --> T9
     D5 -- "No" --> T11["Revise supply quantities"]
     T11 --> T8
+```
