@@ -5,6 +5,13 @@
 task_id: "T4"
 task_name: "Calculate attendance forecast with confidence"
 task_owner: "CPVC Event Organizer"
+
+# Agent Inference Configuration
+Provider: Groq
+Model: "openai/gpt-oss-120b"
+Role: Analyze inputs, calculate attendance, and evaluate forecast confidence.
+Maximum inference requests per task run: 6
+On inference failure or exhausted limits: Record the unresolved data and hand the case to organizer.
 ```
 
 ## 1. Task Goal
@@ -26,6 +33,39 @@ task_owner: "CPVC Event Organizer"
 - **Source:** T7: Capture new information or revised assumptions
 
 ## 3. Tool Permissions and Boundaries
+
+*Name each planned tool and specify its permitted use. Use verb-object names, such as **`retrieve_records`**, usually matching the task or permitted subtask it supports. Tool name identifies the capability; tool type identifies the proposed implementation. No scripts or working integrations are required.*
+
+### Task-Wide Limits
+
+- **Total task timeout:** 120 seconds for task. Retry or additional inference request does not restart this clock
+- **Maximum tool calls:** 6 maximum calls across all tools during task run
+
+### Tool 1
+
+- **Tool name:** `review_forecast_inputs`
+- **Input:** Validate event data. Confirm new information
+- **Output:** Reviewed inputs for forecast. 
+- **Implementation Route:** file operations
+- **Integration approach:** direct integration
+- **Role in this task:** Support Review forecast inputs 
+- **Task timeout:** 120 seconds per task run.
+- **Maximum retries:** 1
+- **Retry only when:** Temporary error prevents the information from being reviewed. Retry once if time and tool calls remain. Do not retry if data is missing or conflicting.
+- **On timeout, exhausted retries, or an error that cannot be retried:** Record the issue and hand the case to the CPVC Event Organizer. Do not continue as if the review succeeded.
+
+### Tool 2
+
+- **Tool name:** `calculate_attendance_estimate`
+- **Input:** Validate event data. Confirm new information
+- **Output:** Estimated attendance, and confidence information
+- **Implementation Route:** functions/scripts
+- **Integration approach:** direct integration
+- **Role in this task:** Use provided data to calculate expected attendance. Help determine how reliable the forecast is.
+- **Task timeout:** 120 seconds per task run.
+- **Maximum retries:** 1
+- **Retry only when:** The calculation fails because of a temporary error or an approved input changes. Retry once if there is still enough time.
+- **On timeout, exhausted retries, or an error that cannot be retried:** Record what went wrong. Send case to organizer if forecast cannot be completed.
 
 ## 4. How the Agent Should Reason
 
