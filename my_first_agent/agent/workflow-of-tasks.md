@@ -24,33 +24,33 @@ HackTrack checks the recommended supply quantities against the available budget 
 
 ```mermaid
 flowchart TD
-    S["Organizer submits event and registration inputs"] --> T1["Retrieve approved inputs"]
-    T1 --> T2["Validate registration and event data"]
-    T2 --> D1{"Inputs valid?"}
+    S["Organizer submits event and registration inputs"] --> T1["Retrieve inputs"]
+    T1 --> T2["Validate registration/event data"]
+    T2 --> D1{"Are the inputs valid?"}
 
-    D1 -->|No| T3["Block run with validation errors"]
-    T3 --> E1(["Run blocked"])
+    D1 -->|No| T3["Block run with error message"]
+    T3 --> E1(["Run blocked. Please validate inputs"])
 
-    D1 -->|Yes| T4["Calculate attendance forecast and confidence"]
+    D1 -->|Yes| T4["Calculate attendance with confidence"]
     T4 --> D2{"Forecast confidence acceptable?"}
 
-    D2 -->|Yes| T6["Calculate food, drink, and swag quantities"]
-    D2 -->|No| T5["Present forecast, assumptions, and capture organizer decision"]
+    D2 -->|Yes| T6["Calculate drink, food, swag amounts"]
+    D2 -->|No| T5["Present the forecast and capture the organizer's decision"]
 
-    T5 --> D3{"Organizer approves assumptions or selects fallback?"}
+    T5 --> D3{"Organizer approves?"}
     D3 -->|Yes| T6
-    D3 -->|No| T7["Capture revised assumptions or new information"]
+    D3 -->|No| T7["Capture new information"]
     T7 --> T4
 
-    T6 --> T8["Check budget and venue capacity"]
-    T8 --> D4{"Supplies within limits?"}
+    T6 --> T8["Check budget and capacity"]
+    T8 --> D4{"Is everything within its necessary limits?"}
 
-    D4 -->|Yes| T9["Save and present dated report"]
-    T9 --> E2(["Report delivered"])
+    D4 -->|Yes| T9["Present data"]
+    T9 --> E2(["Report delivered sucessfully"])
 
-    D4 -->|No| T10["Present quantity revision options and request planning decision"]
-    T10 --> D5{"Organizer approves revised quantities or planning decision?"}
+    D4 -->|No| T10["Present revision and request decision"]
+    T10 --> D5{"Does the organizer approve quantities or planning decision?"}
 
     D5 -->|Yes| T9
-    D5 -->|No| T11["Revise supply quantities"]
+    D5 -->|No| T11["Revise quantities"]
     T11 --> T8
