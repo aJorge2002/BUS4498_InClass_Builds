@@ -24,33 +24,34 @@ HackTrack checks the recommended supply quantities against the available budget 
 
 ```mermaid
 flowchart TD
-    S["Organizer submits event and registration inputs"] --> T1["Retrieve inputs"]
-    T1 --> T2["Validate registration/event data"]
-    T2 --> D1{"Are the inputs valid?"}
+    S["Organizer submits event and registration inputs"] --> T1["T1: Retrieve inputs"]
+    T1 --> T2["T2: Validate registration and event data"]
+    T2 --> D1{"D1: Are the inputs valid?"}
 
-    D1 -->|No| T3["Block run with error message"]
-    T3 --> E1(["Run blocked. Please validate inputs"])
+    D1 -->|No| T3["T3: Block run with an error message"]
+    T3 --> E1(["Run blocked—please validate inputs"])
 
-    D1 -->|Yes| T4["Calculate attendance with confidence"]
-    T4 --> D2{"Forecast confidence acceptable?"}
+    D1 -->|Yes| T4["T4: Calculate attendance forecast with confidence"]
+    T4 --> D2{"D2: Is forecast confidence acceptable?"}
 
-    D2 -->|Yes| T6["Calculate drink, food, swag amounts"]
-    D2 -->|No| T5["Present the forecast and capture the organizer's decision"]
+    D2 -->|Yes| T6["T6: Calculate food, drink, and swag amounts"]
+    D2 -->|No| T5["T5: Present the forecast and capture the organizer's decision"]
 
-    T5 --> D3{"Organizer approves?"}
+    T5 --> D3{"D3: Does the organizer approve the assumptions or choose a fallback?"}
     D3 -->|Yes| T6
-    D3 -->|No| T7["Capture new information"]
+    D3 -->|No| T7["T7: Capture new information or revised assumptions"]
     T7 --> T4
 
-    T6 --> T8["Check budget and capacity"]
-    T8 --> D4{"Is everything within its necessary limits?"}
+    T6 --> T8["T8: Check budget and capacity"]
+    T8 --> D4{"D4: Are the supplies within budget and capacity limits?"}
 
-    D4 -->|Yes| T9["Present data"]
-    T9 --> E2(["Report delivered sucessfully"])
+    D4 -->|Yes| T9["T9: Save and present data"]
+    T9 --> E2(["Report delivered successfully"])
 
-    D4 -->|No| T10["Present revision and request decision"]
-    T10 --> D5{"Does the organizer approve quantities or planning decision?"}
+    D4 -->|No| T10["T10: Present revision and request decision"]
+    T10 --> D5{"D5: Does the organizer approve the revised quantities or planning decision?"}
 
     D5 -->|Yes| T9
-    D5 -->|No| T11["Revise quantities"]
+    D5 -->|No| T11["T11: Organizer revises quantities"]
     T11 --> T8
+```
