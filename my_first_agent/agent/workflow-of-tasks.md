@@ -24,26 +24,33 @@ HackTrack checks the recommended supply quantities against the available budget 
 
 ```mermaid
 flowchart TD
-    S["Trigger: Organizer uploads approved inputs and requests forecast"] --> T1["Retrieve approved inputs"]
+    S["Organizer submits event and registration inputs"] --> T1["Retrieve approved inputs"]
     T1 --> T2["Validate registration and event data"]
     T2 --> D1{"Inputs valid?"}
-    D1 -- "No" --> T3["Block run with validation errors"]
-    T3 --> E1(["Completion: Run blocked"])
-    D1 -- "Yes" --> T4["Calculate attendance forecast and confidence"]
+
+    D1 -->|No| T3["Block run with validation errors"]
+    T3 --> E1(["Run blocked"])
+
+    D1 -->|Yes| T4["Calculate attendance forecast and confidence"]
     T4 --> D2{"Forecast confidence acceptable?"}
-    D2 -- "Yes" --> T6["Calculate food, drink, and swag quantities"]
-    D2 -- "No" --> T5["Present forecast and assumptions"]
-    T5 --> D3{"Organizer approves assumptions or fallback?"}
-    D3 -- "Yes" --> T6
-    D3 -- "No" --> T7["Capture revised assumptions or new information"]
+
+    D2 -->|Yes| T6["Calculate food, drink, and swag quantities"]
+    D2 -->|No| T5["Present forecast, assumptions, and capture organizer decision"]
+
+    T5 --> D3{"Organizer approves assumptions or selects fallback?"}
+    D3 -->|Yes| T6
+    D3 -->|No| T7["Capture revised assumptions or new information"]
     T7 --> T4
+
     T6 --> T8["Check budget and venue capacity"]
     T8 --> D4{"Supplies within limits?"}
-    D4 -- "Yes" --> T9["Save and present dated report"]
-    T9 --> E2(["Completion: Report delivered"])
-    D4 -- "No" --> T10["Present quantity revision options"]
-    T10 --> D5{"Organizer approves quantities or planning decision?"}
-    D5 -- "Yes" --> T9
-    D5 -- "No" --> T11["Revise supply quantities"]
+
+    D4 -->|Yes| T9["Save and present dated report"]
+    T9 --> E2(["Report delivered"])
+
+    D4 -->|No| T10["Present quantity revision options and request planning decision"]
+    T10 --> D5{"Organizer approves revised quantities or planning decision?"}
+
+    D5 -->|Yes| T9
+    D5 -->|No| T11["Revise supply quantities"]
     T11 --> T8
-```
