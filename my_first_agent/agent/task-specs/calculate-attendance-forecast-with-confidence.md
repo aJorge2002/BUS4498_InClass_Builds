@@ -16,14 +16,14 @@ On inference failure or exhausted limits: Record the unresolved data and hand th
 
 ## 1. Task Goal
 
-- **Objective:** The business result produced by this task is a supported attendance forecast for the organizer to decide whether to continue planning food, drinks, and swag or review the forecast assumptions before moving forward.
+- **Objective:** Task results are determined by a forecast for attendance. The organizer then decides whether or not to continue planning food, drinks, and swag. Otherwise they review forecast assumptions before proceeding to the next step.
 
 ## 2. Inbound Inputs
 
 ### Input 1
 
 - **Input name:** Validated registration and event data
-- **What it contains:** Agent receives registration totals and event information needed to estimate attendance, provided as a structured record.
+- **What it contains:** Agent receives data for registration. Then receives event information needed to make estimates. This is presented as a structured record.
 - **Source:** T2: Validate registration and event data
 
 ### Input 2
@@ -74,21 +74,21 @@ On inference failure or exhausted limits: Record the unresolved data and hand th
 - **Subtask name:** Review forecast inputs
 - **Subtask description:** Examine validated registration information and identify inconsistent data that could affect the forecast.
 - **Subtask boundary:** Can review information, but not modify the source data.
-- **Retry limits:** One additional attempt is allowed if revised information becomes available.
+- **Retry limits:** One attempt is allowed
 
 ### Permitted Subtask 2
 
 - **Subtask name:** Select forecast approach
 - **Subtask description:** Choose an appropriate forecasting approach based on the amount and quality of the available information.
 - **Subtask boundary:** Can use provided information only. 
-- **Retry limits:** One additional attempt is allowed if the first approach cannot produce a supported forecast.
+- **Retry limits:** One additional attempt is allowed if forecast can not be calculated
 
 ### Permitted Subtask 3
 
 - **Subtask name:** Calculate attendance estimate
 - **Subtask description:** Produce an estimated attendance result and record the assumptions supporting the estimate.
 - **Subtask boundary:** Execute attendance calculation only. 
-- **Retry limits:** One additional calculation is allowed when an approved input or assumption changes.
+- **Retry limits:** One additional calculation is allowed if data changes
 
 ### Permitted Subtask 4
 
