@@ -53,7 +53,7 @@ Saves planning results and presents final report to CPVC Event organizer
 - **Input:** Budget and capacity check result; Final results
 - **Output:** Planning report dashboard; Planning report xlsx
 - **Implementation Route:** file operations
-- **Integration approach:**direct integration
+- **Integration approach:** direct integration
 - **Role in this task:** Saves planning results and presents final report to CPVC Event organizer
 - **Task timeout:** 60 seconds per task run.
 - **Maximum retries:** 1
