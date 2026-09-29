@@ -1,0 +1,56 @@
+# Validate registration and event data Task Specification
+
+## Basic Information
+
+- **Task ID:** T2
+- **Task name:** Validate event and registration data
+- **Task type:** Verify
+- **Task owner:** CPVC Event Organizer
+
+## 1. Task Description
+
+Validate retrieved event data. Does not change information, instead just cleans and verifies data.
+
+## 2. Inputs
+
+### Input 1
+
+- **Input name:** Retieved registration and event data
+- **Contents and format:** Event data retrieved in T1. Provided in structured, and cleaned, format
+- **Source:** T1: Retrieve inputs
+
+- **If a required input is missing or invalid:** If there is insufficient information, send to T3 in order to display error message
+
+
+## 3. Outputs
+
+### Output 1
+
+- **Output name:** Validated registration and event data
+- **Contents and format:** Event data has passed validation. Provided in structured format.
+- **Next task or recipient:** T4: Calculate attendance forecast with confidence
+- **Complete when:** All validation is passed and data is structured
+
+- **Output name:** Validation failed
+- **Contents and format:** Record which indentifies any missing data
+- **Next task or recipient:** T3: Block run with an error message
+- **Complete when:** Cause of faliure is recorded
+
+## 4. Planned Tools
+
+*Use a verb-object name, usually matching the task: Check Completeness can use `check_completeness`. List every tool separately and use the same name and type wherever the tool appears in the project.*
+
+### Tool 1
+
+- **Tool name:** `validate_registration_event_data`
+- **Input:** Retrieved registration and event data
+- **Output:** Validated registration and event data; Validation failed
+- **Implementation Route:** functions/scripts
+- **Integration approach:** direct integration
+- **Role in this task:** Validate retrieved registration and event information and return either validated data or reason for faliure.
+- **Task timeout:** 60 seconds per task run.
+- **Maximum retries:** 1
+- **Retry only when:** Validation could not be completed
+- **On timeout, exhausted retries, or an error that cannot be retried:** Record validation reason and continue to T3
+
+
