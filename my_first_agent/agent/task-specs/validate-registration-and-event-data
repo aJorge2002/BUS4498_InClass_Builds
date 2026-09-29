@@ -43,7 +43,7 @@ Validate retrieved event data. Does not change information, instead just cleans 
 ### Tool 1
 
 - **Tool name:** `validate_registration_event_data`
-- **Input:** Retrieved registration and event data
+- **Input:** Retieved registration and event data
 - **Output:** Validated registration and event data; Validation failed
 - **Implementation Route:** functions/scripts
 - **Integration approach:** direct integration
